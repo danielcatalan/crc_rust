@@ -1,14 +1,14 @@
 mod utils;
 
-pub struct Crc<const POLY: usize> {}
+pub struct Crc<const POLY: usize, const INIT: usize> {}
 
-pub type Crc8 = Crc<7>;
+pub type Crc8 = Crc<0x07, 0x00>;
 
-impl<const POLY: usize> Crc<POLY> {
+impl<const POLY: usize, const INIT: usize> Crc<POLY, INIT> {
     const LUT: [u8; 256] = Self::lut_generator();
 
     pub fn calc_crc(input: &str) -> u8 {
-        let mut crc = 0;
+        let mut crc = INIT as u8;
         for b in input.as_bytes() {
             let data = (b ^ crc) as usize;
             crc = Self::LUT[data];

@@ -1,10 +1,10 @@
 mod utils;
 
-pub struct Crc<const poly: usize> {}
+pub struct Crc<const POLY: usize> {}
 
 pub type Crc8 = Crc<7>;
 
-impl<const poly: usize> Crc<poly> {
+impl<const POLY: usize> Crc<POLY> {
     const LUT: [u8; 256] = Self::lut_generator();
 
     pub fn calc_crc(input: &str) -> u8 {
@@ -18,7 +18,7 @@ impl<const poly: usize> Crc<poly> {
     }
 
     const fn lut_generator() -> [u8; 256] {
-        let generator = poly as u8;
+        let generator = POLY as u8;
         let mut table = [0; 256];
 
         let mut dividend = 0;

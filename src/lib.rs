@@ -1,3 +1,6 @@
+mod utils;
+
+
 pub struct Crc<const poly: usize>{}
 
 pub type Crc8 = Crc<7>;
@@ -22,9 +25,8 @@ impl<const poly: usize> Crc<poly> {
         let mut dividend = 0;
         while dividend < 256 {
             let mut currbyte = dividend as u8;
-
-            let mut bit: u8 = 0;
-            while bit < 8{
+            ////////////////////////
+            c_for!(let mut bit = 0; bit < 8; bit +=1; {
                 if currbyte & 0x80 != 0 {
                     currbyte <<=1;
                     currbyte ^= generator;
@@ -32,8 +34,8 @@ impl<const poly: usize> Crc<poly> {
                 else {
                     currbyte <<=1;
                 }
-                bit +=1;
-            }
+            });
+            /////////////////////////////////
             table[dividend] = currbyte;
             dividend +=1;
         }
@@ -43,17 +45,7 @@ impl<const poly: usize> Crc<poly> {
 }
 
 
-macro_rules! c_for {
-    ($a:stmt; $b:expr; $c:expr; $d:expr) => {
-        {
-            $a;
-            while $b{
-                $d
-                $c;
-            }
-        }  
-    };
-}
+
 
 #[cfg(test)]
 mod tests {
@@ -79,16 +71,5 @@ mod tests {
         assert_eq!(0xF3, x);
     }
 
-    #[test]
-    fn test_c_for() {
-        let mut x = 1;
 
-        // factorial of 5
-        // !5 => 5*4*3*2*1 => 120
-        c_for!(let mut i=1; i <= 5; i+=1; {
-            x *= i;
-        });
-
-        assert_eq!(120, x);
-    }
 }

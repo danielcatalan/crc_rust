@@ -1,26 +1,40 @@
-pub struct Crc;
+pub struct Crc<const poly: usize>{}
 
-impl Crc {
+pub type Crc8 = Crc<7>;
+
+impl<const poly: usize> Crc<poly> {
     const LUT: [u8;256] = Self::lut_generator();
 
     pub fn calc_crc(input: &str)-> u8 {
+        let mut crc = 0;
+        for b in input.as_bytes(){
+            let data = (b ^ crc) as usize;
+            crc = Self::LUT[data];
+        }
 
-
-        todo!()
+        crc
     }
 
     const fn lut_generator() -> [u8;256]{
-        let table = [0; 256];
+        let generator = poly as u8;
+        let mut table = [0; 256];
 
         let mut dividend = 0;
         while dividend < 256 {
-            let currbyte = dividend as u8;
+            let mut currbyte = dividend as u8;
 
             let mut bit: u8 = 0;
             while bit < 8{
-                bit
+                if currbyte & 0x80 != 0 {
+                    currbyte <<=1;
+                    currbyte ^= generator;
+                }
+                else {
+                    currbyte <<=1;
+                }
+                bit +=1;
             }
-            
+            table[dividend] = currbyte;
             dividend +=1;
         }
 
@@ -38,7 +52,19 @@ mod tests {
     fn it_works() {
         let input = "123456789";
 
-        let crc = Crc::calc_crc(input);
+        let crc = Crc8::calc_crc(input);
         assert_eq!(0xF4, crc);
+    }
+
+    #[test]
+    fn test_table() {
+        let x = Crc8::LUT[0];
+        assert_eq!(0x00, x);
+
+        let x = Crc8::LUT[1];
+        assert_eq!(0x07, x);
+
+        let x = Crc8::LUT[255];
+        assert_eq!(0xF3, x);
     }
 }

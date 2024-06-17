@@ -9,9 +9,9 @@ pub type Crc8Cdma2000 = Crc<0x9B, 0xFF>;
 impl<const POLY: usize, const INIT: usize> Crc<POLY, INIT> {
     const LUT: [u8; 256] = Self::lut_generator();
 
-    pub fn calc_crc(input: &str) -> u8 {
+    pub fn calc_crc(input: &[u8]) -> u8 {
         let mut crc = INIT as u8;
-        for b in input.as_bytes() {
+        for b in input {
             let data = (b ^ crc) as usize;
             crc = Self::LUT[data];
         }
@@ -53,7 +53,7 @@ mod tests {
     fn it_works() {
         let input = "123456789";
 
-        let crc = Crc8::calc_crc(input);
+        let crc = Crc8::calc_crc(input.as_bytes());
         assert_eq!(0xF4, crc);
     }
 

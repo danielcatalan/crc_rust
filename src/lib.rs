@@ -12,6 +12,7 @@ pub struct Crc<const POLY: usize, const INIT: usize, REFL: BitReflecttion> {
 pub type Crc8 = Crc<0x07, 0x00, NoReflect>;
 pub type Crc8Cdma2000 = Crc<0x9B, 0xFF, NoReflect>;
 pub type Crc8Darc = Crc<0x39, 0x00, Reflect>;
+pub type Crc8DvbS2 = Crc<0xD5, 0x00, NoReflect>;
 
 impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT, REFL> {
     const LUT: [u8; 256] = Self::lut_generator();

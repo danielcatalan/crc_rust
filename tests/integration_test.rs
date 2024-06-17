@@ -1,10 +1,10 @@
-use crc::Crc;
+use crc::{Crc, Crc8Cdma2000};
 
 #[test]
 pub fn test_crc8_cdma2000() {
     let input = "123456789";
 
-    let crc = Crc::<0x9B,0xFF>::calc_crc(input);
+    let crc = Crc8Cdma2000::calc_crc(input);
     assert_eq!(0xDA, crc);
 }
 

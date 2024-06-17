@@ -3,6 +3,8 @@ mod utils;
 pub struct Crc<const POLY: usize, const INIT: usize> {}
 
 pub type Crc8 = Crc<0x07, 0x00>;
+pub type Crc8Cdma2000 = Crc<0x9B, 0xFF>;
+
 
 impl<const POLY: usize, const INIT: usize> Crc<POLY, INIT> {
     const LUT: [u8; 256] = Self::lut_generator();

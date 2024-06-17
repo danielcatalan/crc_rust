@@ -27,17 +27,12 @@ impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT,
 
         REFL::process(crc)
     }
-    #[inline]
-    pub fn reflect(val: u8) -> u8 {
-        val.reverse_bits()
-    }
 
     const fn lut_generator() -> [u8; 256] {
         let generator = POLY as u8;
         let mut table = [0; 256];
 
-        let mut dividend = 0;
-        while dividend < 256 {
+        c_for!(let mut dividend = 0; dividend < 256; dividend += 1; {
             let mut currbyte = dividend as u8;
 
             c_for!(let mut bit = 0; bit < 8; bit +=1; {
@@ -51,8 +46,7 @@ impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT,
             });
 
             table[dividend] = currbyte;
-            dividend += 1;
-        }
+        });
 
         table
     }

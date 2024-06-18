@@ -18,13 +18,13 @@ impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT,
     const LUT: [u8; 256] = Self::lut_generator();
 
     pub fn calc_crc(input: &[u8]) -> u8 {
-        let mut crc = INIT as u8;
-        for b in input {
-            let b = REFL::process(*b);
-            let data = (b ^ crc) as usize;
-            crc = Self::LUT[data];
-        }
 
+        let crc = input.iter()
+        .map(|b| REFL::process(*b))
+        .fold(INIT as u8, |crc, b| {
+            let data = (b ^ crc) as usize;
+            Self::LUT[data]
+        });
         REFL::process(crc)
     }
 

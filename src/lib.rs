@@ -1,6 +1,7 @@
 mod bitreflection;
 mod utils;
 mod crc;
+mod lut_generator;
 
 pub use crc::Crc; 
 pub use bitreflection::{NoReflect,Reflect};

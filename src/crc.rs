@@ -7,7 +7,7 @@ pub struct Crc<const POLY: usize, const INIT: usize, REFL: BitReflecttion> {
 }
 
 impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT, REFL> {
-    const LUT: [u8; 256] = LutGenerator::<u8>::generate_lut(POLY);
+    const LUT: [u8; 256] = LutGenerator::<u8>::generate_lut(POLY as u8);
 
     pub fn calc_crc(input: &[u8]) -> u8 {
 

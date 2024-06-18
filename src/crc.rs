@@ -2,11 +2,12 @@ use std::marker::PhantomData;
 use crate::bitreflection::*;
 use crate::lut_generator::LutGenerator;
 
-pub struct Crc<const POLY: usize, const INIT: usize, REFL: BitReflecttion> {
-    phantom: PhantomData<REFL>,
+pub struct Crc<T,const POLY: usize, const INIT: usize, REFL: BitReflecttion> {
+    phantom1: PhantomData<T>,
+    phantom2: PhantomData<REFL>,
 }
 
-impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT, REFL> {
+impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<u8, POLY, INIT, REFL> {
     const LUT: [u8; 256] = LutGenerator::<u8>::generate_lut(POLY as u8);
 
     pub fn calc_crc(input: &[u8]) -> u8 {
@@ -24,7 +25,7 @@ impl<const POLY: usize, const INIT: usize, REFL: BitReflecttion> Crc<POLY, INIT,
 #[cfg(test)]
 mod tests {
     use super::*;
-    type Crc8 = Crc<0x07, 0x00, NoReflect>;
+    type Crc8 = Crc<u8, 0x07, 0x00, NoReflect>;
 
     #[test]
     fn it_works() {

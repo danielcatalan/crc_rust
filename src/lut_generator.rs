@@ -1,12 +1,11 @@
-use std::marker::PhantomData;
 use crate::c_for;
+use std::marker::PhantomData;
 
-
-pub struct LutGenerator <T>{
-    phantom: PhantomData<T>
+pub struct LutGenerator<T> {
+    phantom: PhantomData<T>,
 }
 
-impl LutGenerator<u8>{
+impl LutGenerator<u8> {
     #[inline]
     pub const fn generate_lut(poly: u8) -> [u8; 256] {
         let generator = poly;
@@ -32,10 +31,10 @@ impl LutGenerator<u8>{
     }
 }
 
-impl LutGenerator<u16>{
+impl LutGenerator<u16> {
     #[inline]
     pub const fn generate_lut(poly: u16) -> [u16; 256] {
-        let generator = poly ;
+        let generator = poly;
         let mut table = [0; 256];
 
         c_for!(let mut dividend = 0; dividend < 256; dividend += 1; {
@@ -88,5 +87,3 @@ mod tests {
         assert_eq!(0x1EF0, x);
     }
 }
-
-

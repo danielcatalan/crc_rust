@@ -1,8 +1,8 @@
-use crc::Crc8;
+use crc::Crc8Basic;
 
 #[inline(never)]
-pub fn foo(input:&str)-> u8 {
-    Crc8::calc_crc(input.as_bytes())
+pub fn foo(input: &str) -> u8 {
+    Crc8Basic::calc_crc(input.as_bytes())
 }
 
 fn main() {
@@ -10,5 +10,5 @@ fn main() {
     println!("Input data: {input}");
 
     let crc = foo(input);
-    println!("crc is 0x{:2x}",crc);
+    println!("crc is 0x{:2x}", crc);
 }

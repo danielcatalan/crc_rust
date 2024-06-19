@@ -7,6 +7,7 @@ pub struct LutGenerator <T>{
 }
 
 impl LutGenerator<u8>{
+    #[inline]
     pub const fn generate_lut(poly: u8) -> [u8; 256] {
         let generator = poly;
         let mut table = [0; 256];
@@ -32,6 +33,7 @@ impl LutGenerator<u8>{
 }
 
 impl LutGenerator<u16>{
+    #[inline]
     pub const fn generate_lut(poly: u16) -> [u16; 256] {
         let generator = poly ;
         let mut table = [0; 256];

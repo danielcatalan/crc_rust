@@ -6,7 +6,12 @@ pub trait BitReflecttion {
 }
 
 pub struct NoReflect;
-pub struct Reflect;
+
+pub struct ReflectIn;
+
+pub struct ReflectOut;
+
+pub struct ReflectInOut;
 
 impl BitReflecttion for NoReflect {
     #[inline(always)]
@@ -20,7 +25,29 @@ impl BitReflecttion for NoReflect {
     }
 }
 
-impl BitReflecttion for Reflect {
+impl BitReflecttion for ReflectIn {
+    #[inline(always)]
+    fn process_in<T: Reflectable>(val: T) -> T {
+        val.reflect()
+    }
+
+    #[inline(always)]
+    fn process_out<T: Reflectable>(val: T) -> T {
+        val
+    }
+}
+
+impl BitReflecttion for ReflectOut {
+    #[inline(always)]
+    fn process_in<T: Reflectable>(val: T) -> T {
+        val
+    }
+    fn process_out<T: Reflectable>(val: T) -> T {
+        val.reflect()
+    }
+}
+
+impl BitReflecttion for ReflectInOut {
     #[inline(always)]
     fn process_in<T: Reflectable>(val: T) -> T {
         val.reflect()
@@ -46,7 +73,7 @@ mod tests {
     fn test_reflect_u8() {
         let x: u8 = 0x80;
 
-        let y = Reflect::process_in(x);
+        let y = ReflectInOut::process_in(x);
         assert_eq!(0x01, y);
     }
 }

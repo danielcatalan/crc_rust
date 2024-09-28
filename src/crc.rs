@@ -64,7 +64,7 @@ mod tests {
     use super::*;
     type Crc8Basic = Crc8<0x07, 0x00, NoReflect>;
     type Crc16XModem = Crc16<0x1021, 0x0000, NoReflect>;
-    type Crc32Jamcrc = Crc32<0x04C11DB7, 0xFFFFFFFF, Reflect>;
+    type Crc32Jamcrc = Crc32<0x04C11DB7, 0xFFFFFFFF, ReflectInOut>;
 
     #[test]
     fn test_simple_crc8() {

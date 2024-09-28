@@ -1,4 +1,4 @@
-use crate::c_for;
+use crate::utils::c_for;
 use std::marker::PhantomData;
 
 pub struct LutGenerator<T> {

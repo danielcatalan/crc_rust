@@ -1,4 +1,3 @@
-#[macro_export]
 macro_rules! c_for {
     ($a:stmt; $b:expr; $c:expr; $d:block) => {
         {
@@ -10,6 +9,8 @@ macro_rules! c_for {
         }
     };
 }
+
+pub(crate) use c_for;
 
 #[cfg(test)]
 mod tests {
